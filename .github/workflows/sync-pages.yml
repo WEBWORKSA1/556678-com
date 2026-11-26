@@ -1,0 +1,20 @@
+name: Sync gh-pages mirror
+
+# main is the source of truth. Every push to main is mirrored to gh-pages so the
+# live site is identical whether Pages serves from main or gh-pages.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: git push --force origin HEAD:gh-pages
